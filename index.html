@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Milss! 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0; padding: 0;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('background-teman.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            font-family: 'Poppins', sans-serif; overflow-x: hidden;
+        }
+
+        /* OVERLAY AWAL */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white;
+            text-align: center; cursor: pointer;
+        }
+
+        .container {
+            text-align: center; background: rgba(255, 255, 255, 0.9);
+            padding: 30px; border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            width: 90%; max-width: 450px; border: 6px solid #fff;
+            z-index: 10; backdrop-filter: blur(5px);
+            transition: 0.5s;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem;
+            color: #FF6B6B; margin: 10px 0; text-shadow: 2px 2px 0px #fff;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* NAVIGASI HALAMAN */
+        .page { display: none; }
+        .page.aktif { display: block; animation: fadeIn 0.8s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .foto-frame {
+            width: 100%; height: 250px; background: #eee;
+            border-radius: 20px; margin-bottom: 15px; overflow: hidden;
+            border: 5px solid #FF6B6B; display: flex; justify-content: center; align-items: center;
+        }
+        .foto-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* INPUT AREA */
+        textarea {
+            width: 90%; height: 80px; border-radius: 15px; border: 2px solid #FF6B6B;
+            padding: 10px; font-family: 'Poppins', sans-serif; margin-top: 10px;
+            resize: none; outline: none;
+        }
+
+        /* BUTTONS */
+        .btn {
+            font-family: 'Poppins', sans-serif; font-weight: 700;
+            border: none; padding: 12px 25px; border-radius: 50px;
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+            margin: 8px; font-size: 0.85rem;
+        }
+
+        /* Gaya tombol saat terkunci */
+        .btn:disabled {
+            background: #ccc !important;
+            border-color: #bbb !important;
+            color: #888 !important;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-buka { background: #FF6B6B; color: white; box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4); }
+        .btn-next { background: #FFD93D; color: #444; border: 2px solid #ffc107; }
+        .btn-final { background: #FF6B6B; color: white; }
+        .btn-back { background: #4ECDC4; color: white; }
+
+        .btn:hover:not(:disabled) { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* LIST HARAPAN */
+        .wish-list { text-align: left; margin: 15px 0; list-style: none; padding: 0; }
+        .wish-item {
+            background: white; margin-bottom: 10px; padding: 10px 15px;
+            border-radius: 12px; display: flex; align-items: center;
+            cursor: pointer; transition: 0.3s; border: 1px solid #eee;
+        }
+        .wish-item.checked { background: #fff5f5; border-color: #FF6B6B; }
+        .checkbox {
+            width: 20px; height: 20px; border: 2px solid #FF6B6B;
+            border-radius: 5px; margin-right: 15px; display: flex;
+            justify-content: center; align-items: center;
+        }
+        .wish-item.checked .checkbox { background: #FF6B6B; }
+        .wish-item.checked .checkbox::after { content: '✓'; color: white; font-weight: bold; font-size: 12px; }
+
+        .balloon {
+            position: absolute; width: 35px; height: 50px;
+            border-radius: 50%; bottom: -100px; z-index: 1;
+            animation: fly 6s linear infinite;
+        }
+        @keyframes fly { to { transform: translateY(-120vh) rotate(20deg); } }
+    </style>
+</head>
+<body>
+
+    <div id="overlay" onclick="mulaiWeb()">
+        <h2 style="font-family: 'Dancing Script'; font-size: 3rem;">Duh, ini apa ya <br> kok gelap?</h2>
+    </div>
+
+    <audio id="lagu" src="musik-ultah.mp3" loop></audio>
+
+    <div class="container" id="mainContainer" style="display: none;">
+        
+        <div id="hal1" class="page aktif">
+            <h1>Happy Birthday</h1>
+            <p>i have a little wish for my little fighter✨</p>
+            <button class="btn btn-buka" onclick="bukaHal2()">Klik disini dongg</button>
+        </div>
+
+        <div id="hal2" class="page">
+            <div class="foto-frame"><img src="foto-teman.jpg"></div>
+            <h2>Yeayy, Selamat Ulang Tahun! 🎉</h2>
+            <p style="font-size: 0.9rem; color: #444;">Semoga di usia baru ini, kamu semakin bahagia dan sukses selalu! ✨</p>
+            <p><strong>-  ❤️</strong></p>
+            <button class="btn btn-next" onclick="pindahHalaman('hal3')">Klik Disini ✨</button>
+        </div>
+
+        <div id="hal3" class="page">
+            <h2 style="color: #FF6B6B; font-family: 'Dancing Script'; font-size: 2.5rem;">My Wish For You ✨</h2>
+            <p style="font-size: 0.75rem; color: #777;">(Pilih minimal satu harapan)</p>
+            <ul class="wish-list">
+                <li class="wish-item" onclick="toggleCheck(this)"><div class="checkbox"></div> <span>Selalu Bahagia</span></li>
+                <li class="wish-item" onclick="toggleCheck(this)"><div class="checkbox"></div> <span>Sehat Walafiat</span></li>
+                <li class="wish-item" onclick="toggleCheck(this)"><div class="checkbox"></div> <span>Rezeki Lancar</span></li>
+                <li class="wish-item" onclick="toggleCheck(this)"><div class="checkbox"></div> <span>Urusan Dimudahkan</span></li>
+                <li class="wish-item" onclick="toggleCheck(this)"><div class="checkbox"></div> <span>Cita-cita Tercapai</span></li>
+            </ul>
+            <button id="btnHal3" class="btn btn-next" onclick="pindahHalaman('hal4')" disabled>Klik lagi dong disini ✨</button>
+        </div>
+
+        <div id="hal4" class="page">
+            <h2 style="color: #FF6B6B; font-family: 'Dancing Script';">Make A Wish ✨</h2>
+            <p style="font-size: 0.85rem;">Tulis harapan versi kamu sendiri di sini:</p>
+            <textarea id="myWish" placeholder="Aku ingin tahun ini..." oninput="validateInput()"></textarea>
+            <br>
+            <button id="btnHal4" class="btn btn-next" onclick="pindahHalaman('hal5')" disabled>Klik Lagi ✨</button>
+        </div>
+
+        <div id="hal5" class="page">
+            <h1 style="font-size: 2.5rem;">Yeayy!! 🎉</h1>
+            <p style="font-size: 1.1rem; color: #444; font-weight: bold;">
+                Semoga bahagia selalu yaa hari ini! 🥳✨
+            </p>
+            <p>Harapanmu sudah tercatat di semesta!</p>
+            <button class="btn btn-back" onclick="kembaliKeAwalSemua()">Mulai Dari Awal ↺</button>
+        </div>
+
+    </div>
+
+    <script>
+        var audio = document.getElementById('lagu');
+
+        function mulaiWeb() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            audio.play();
+        }
+
+        function pindahHalaman(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('aktif'));
+            document.getElementById(id).classList.add('aktif');
+            for(let i=0; i<5; i++) { setTimeout(createBalloon, i * 200); }
+        }
+
+        function bukaHal2() {
+            pindahHalaman('hal2');
+            for(let i=0; i<10; i++) { setTimeout(createBalloon, i * 200); }
+        }
+
+        function kembaliKeAwalSemua() {
+            document.querySelector('textarea').value = "";
+            document.querySelectorAll('.wish-item').forEach(el => el.classList.remove('checked'));
+            // Kunci kembali tombol saat reset
+            document.getElementById('btnHal3').disabled = true;
+            document.getElementById('btnHal4').disabled = true;
+            pindahHalaman('hal1');
+        }
+
+        function toggleCheck(el) {
+            el.classList.toggle('checked');
+            
+            // Logika Validasi Halaman 3: Cek apakah ada yang dicentang
+            const anyChecked = document.querySelectorAll('.wish-item.checked').length > 0;
+            document.getElementById('btnHal3').disabled = !anyChecked;
+
+            if(el.classList.contains('checked')) createBalloon();
+        }
+
+        // Logika Validasi Halaman 4: Cek apakah textarea ada isinya
+        function validateInput() {
+            const inputVal = document.getElementById('myWish').value.trim();
+            // Tombol aktif jika panjang teks minimal 3 karakter
+            document.getElementById('btnHal4').disabled = inputVal.length < 3;
+        }
+
+        function createBalloon() {
+            const b = document.createElement('div');
+            b.className = 'balloon';
+            const colors = ['#FFADAD', '#FFD6A5', '#FDFFB6', '#CAFFBF', '#9BF6FF', '#A0C4FF'];
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            b.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 7000);
+        }
+    </script>
+</body>
+</html>
